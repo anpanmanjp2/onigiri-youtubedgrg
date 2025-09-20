@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>タップorクリックで確認</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            width: 100vw;
+            background: url('https://media.discordapp.net/attachments/1405913847306649600/1418915762579443742/image.png?ex=68cfdbc7&is=68ce8a47&hm=a801d2f9548c3ada954b9f59df98a14e35c5eff1251f0f9704d3a8a9802bd1bd&=&format=webp&quality=lossless&width=693&height=693') no-repeat center center fixed;
+            background-size: cover;
+            color: #00ff00;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'DotGothic16', 'Consolas', 'Monaco', monospace;
+            font-size: 2em;
+            user-select: none;
+        }
+        #start {
+            cursor: pointer;
+            padding: 32px 48px;
+            border: 2px solid #00ff00;
+            border-radius: 12px;
+            background: #222;
+            box-shadow: 0 0 24px #00ff0044;
+            transition: background 0.2s;
+        }
+        #start:hover {
+            background: #333;
+        }
+        #video {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            object-fit: cover;
+            z-index: 9999;
+            background: #000;
+        }
+    </style>
+</head>
+<body>
+    <div id="start">タップ or クリックで確認</div>
+    <video id="video" src="https://cdn.discordapp.com/attachments/1187385738451505233/1409078245810241659/Clipchamp.mp4?ex=68cfaa61&is=68ce58e1&hm=e45db6c64de6fe0530795309b50d3ad36612350d4f5f252f6d3078f8cbe05d18&" loop muted></video>
+    <script>
+        const start = document.getElementById('start');
+        const video = document.getElementById('video');
+        function showVideo() {
+            start.style.display = 'none';
+            video.style.display = 'block';
+            video.play();
+            // フルスクリーン
+            if (video.requestFullscreen) {
+                video.requestFullscreen();
+            } else if (video.webkitRequestFullscreen) {
+                video.webkitRequestFullscreen();
+            } else if (video.msRequestFullscreen) {
+                video.msRequestFullscreen();
+            }
+        }
+        start.addEventListener('click', showVideo);
+        start.addEventListener('touchstart', showVideo);
+        // 無限ループ（念のため）
+        video.addEventListener('ended', () => {
+            video.currentTime = 0;
+            video.play();
+        });
+    </script>
+</body>
+</html>
