@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <title>タップorクリックで確認</title>
+    <title>ルール確認 → 動画表示</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <style>
         body {
@@ -25,12 +25,13 @@
             padding: 32px 48px;
             border: 2px solid #00ff00;
             border-radius: 12px;
-            background: #222;
+            background: #111;
             box-shadow: 0 0 24px #00ff0044;
-            transition: background 0.2s;
+            transition: background 0.2s, transform 0.2s;
         }
         #start:hover {
-            background: #333;
+            background: #222;
+            transform: scale(1.05);
         }
         #video {
             display: none;
@@ -40,19 +41,32 @@
             z-index: 9999;
             background: #000;
         }
+        #note {
+            position: absolute;
+            bottom: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.6em;
+            color: #ccc;
+            text-shadow: 0 0 8px #000;
+        }
     </style>
 </head>
 <body>
-    <div id="start">タップ or クリックで確認</div>
-    <video id="video" src="https://cdn.discordapp.com/attachments/1187385738451505233/1409078245810241659/Clipchamp.mp4?ex=68cfaa61&is=68ce58e1&hm=e45db6c64de6fe0530795309b50d3ad36612350d4f5f252f6d3078f8cbe05d18&" loop muted></video>
+    <div id="start">ルールを表示しますか？</div>
+    <video id="video" src="https://cdn.discordapp.com/attachments/1187385738451505233/1409078245810241659/Clipchamp.mp4?ex=68d39ee1&is=68d24d61&hm=190c4b804492c3696a298f494f3fe66f4a49b851c01fce554b339bdf74ad7d77&" controls loop></video>
+    <div id="note">※ 動画が再生されない場合は、ブラウザの再生ボタンを押してください。</div>
     <script>
         const start = document.getElementById('start');
         const video = document.getElementById('video');
+        const note = document.getElementById('note');
+
         function showVideo() {
             start.style.display = 'none';
             video.style.display = 'block';
+            note.style.display = 'block';
             video.play();
-            // フルスクリーン
+            // フルスクリーン試行
             if (video.requestFullscreen) {
                 video.requestFullscreen();
             } else if (video.webkitRequestFullscreen) {
@@ -61,9 +75,11 @@
                 video.msRequestFullscreen();
             }
         }
+
         start.addEventListener('click', showVideo);
         start.addEventListener('touchstart', showVideo);
-        // 無限ループ（念のため）
+
+        // 無限ループ（安全策）
         video.addEventListener('ended', () => {
             video.currentTime = 0;
             video.play();
