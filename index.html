@@ -1,101 +1,92 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="UTF-8">
-    <title>ルール確認 → 動画表示</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            height: 100vh;
-            width: 100vw;
-            background: url('https://media.discordapp.net/attachments/1405913847306649600/1418915762579443742/image.png') no-repeat center center fixed;
-            background-size: cover;
-            color: #00ff00;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: 'DotGothic16', 'Consolas', 'Monaco', monospace;
-            font-size: 2em;
-            user-select: none;
-        }
-        #start {
-            cursor: pointer;
-            padding: 32px 48px;
-            border: 2px solid #00ff00;
-            border-radius: 12px;
-            background: #111;
-            box-shadow: 0 0 24px #00ff0044;
-            transition: background 0.2s, transform 0.2s;
-        }
-        #start:hover {
-            background: #222;
-            transform: scale(1.05);
-        }
-        #video {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            object-fit: cover;
-            z-index: 9999;
-            background: #000;
-        }
-        #note {
-            position: absolute;
-            bottom: 16px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-size: 0.6em;
-            color: #ccc;
-            text-shadow: 0 0 8px #000;
-            display: none;
-        }
-    </style>
+<meta charset="UTF-8">
+<title>ルール確認 → 動画表示</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    width: 100vw;
+    background: url('https://media.discordapp.net/attachments/1405913847306649600/1418915762579443742/image.png') no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'DotGothic16', 'Consolas', 'Monaco', monospace;
+    color: #00ff00;
+    font-size: 2em;
+}
+#start {
+    cursor: pointer;
+    padding: 32px 48px;
+    border: 2px solid #00ff00;
+    border-radius: 12px;
+    background: #111;
+    box-shadow: 0 0 24px #00ff0044;
+    transition: background 0.2s, transform 0.2s;
+}
+#start:hover { background: #222; transform: scale(1.05); }
+#video {
+    display: none;
+    position: fixed;
+    top:0; left:0; width:100vw; height:100vh;
+    object-fit: cover;
+    z-index: 9999;
+    background: #000;
+}
+#note {
+    position: absolute;
+    bottom: 16px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.6em;
+    color: #ccc;
+    text-shadow: 0 0 8px #000;
+    display: none;
+}
+</style>
 </head>
 <body>
-    <div id="start">ルールを表示しますか？</div>
-    <video id="video"
-           src="https://username.github.io/repo/Clipchamp.mp4"
-           controls
-           loop
-           preload="auto"
-           poster="https://media.discordapp.net/attachments/1405913847306649600/1418915762579443742/image.png">
-    </video>
-    <div id="note">※ 動画が再生されない場合は、ブラウザの再生ボタンを押してください。</div>
+<div id="start">ルールを表示しますか？</div>
+<video id="video"
+       src="Clipchamp.mp4"
+       controls
+       autoplay
+       muted
+       loop
+       preload="auto"
+       poster="https://media.discordapp.net/attachments/1405913847306649600/1418915762579443742/image.png">
+</video>
+<div id="note">※ 再生されない場合はブラウザの再生ボタンを押してください。</div>
+<script>
+const start = document.getElementById('start');
+const video = document.getElementById('video');
+const note = document.getElementById('note');
 
-    <script>
-        const start = document.getElementById('start');
-        const video = document.getElementById('video');
-        const note = document.getElementById('note');
+start.addEventListener('click', () => {
+    start.style.display = 'none';
+    video.style.display = 'block';
+    note.style.display = 'block';
+    video.play();
+    if(video.requestFullscreen) video.requestFullscreen();
+});
 
-        // ページ読み込み時に動画を先読み
-        window.addEventListener('load', () => {
-            video.load();
-        });
+start.addEventListener('touchstart', () => {
+    start.style.display = 'none';
+    video.style.display = 'block';
+    note.style.display = 'block';
+    video.play();
+    if(video.requestFullscreen) video.requestFullscreen();
+});
 
-        function showVideo() {
-            start.style.display = 'none';
-            video.style.display = 'block';
-            note.style.display = 'block';
-            video.play();  // ユーザー操作後に再生される
-            if (video.requestFullscreen) {
-                video.requestFullscreen();
-            } else if (video.webkitRequestFullscreen) {
-                video.webkitRequestFullscreen();
-            } else if (video.msRequestFullscreen) {
-                video.msRequestFullscreen();
-            }
-        }
-
-        start.addEventListener('click', showVideo);
-        start.addEventListener('touchstart', showVideo);
-
-        // 無限ループ（念のため）
-        video.addEventListener('ended', () => {
-            video.currentTime = 0;
-            video.play();
-        });
-    </script>
+// 念のためループ処理
+video.addEventListener('ended', () => {
+    video.currentTime = 0;
+    video.play();
+});
+</script>
 </body>
 </html>
