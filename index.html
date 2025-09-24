@@ -55,16 +55,13 @@
 </head>
 <body>
     <div id="start">ルールを表示しますか？</div>
-
-    <!-- HTMLと同じmainに置いた動画を再生 -->
     <video id="video"
-           src="Clipchamp.mp4"
+           src="https://username.github.io/repo/Clipchamp.mp4"
            controls
            loop
            preload="auto"
            poster="https://media.discordapp.net/attachments/1405913847306649600/1418915762579443742/image.png">
     </video>
-
     <div id="note">※ 動画が再生されない場合は、ブラウザの再生ボタンを押してください。</div>
 
     <script>
@@ -94,7 +91,7 @@
         start.addEventListener('click', showVideo);
         start.addEventListener('touchstart', showVideo);
 
-        // 念のため無限ループ
+        // 無限ループ（念のため）
         video.addEventListener('ended', () => {
             video.currentTime = 0;
             video.play();
