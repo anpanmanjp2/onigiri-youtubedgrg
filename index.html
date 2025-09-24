@@ -10,7 +10,7 @@
             padding: 0;
             height: 100vh;
             width: 100vw;
-            background: url('https://media.discordapp.net/attachments/1405913847306649600/1418915762579443742/image.png?ex=68cfdbc7&is=68ce8a47&hm=a801d2f9548c3ada954b9f59df98a14e35c5eff1251f0f9704d3a8a9802bd1bd&=&format=webp&quality=lossless&width=693&height=693') no-repeat center center fixed;
+            background: url('https://media.discordapp.net/attachments/1405913847306649600/1418915762579443742/image.png') no-repeat center center fixed;
             background-size: cover;
             color: #00ff00;
             display: flex;
@@ -49,24 +49,36 @@
             font-size: 0.6em;
             color: #ccc;
             text-shadow: 0 0 8px #000;
+            display: none;
         }
     </style>
 </head>
 <body>
     <div id="start">ルールを表示しますか？</div>
-    <video id="video" src="https://cdn.discordapp.com/attachments/1187385738451505233/1409078245810241659/Clipchamp.mp4?ex=68d39ee1&is=68d24d61&hm=190c4b804492c3696a298f494f3fe66f4a49b851c01fce554b339bdf74ad7d77&" controls loop></video>
+    <video id="video"
+           src="https://username.github.io/repo/Clipchamp.mp4"
+           controls
+           loop
+           preload="auto"
+           poster="https://media.discordapp.net/attachments/1405913847306649600/1418915762579443742/image.png">
+    </video>
     <div id="note">※ 動画が再生されない場合は、ブラウザの再生ボタンを押してください。</div>
+
     <script>
         const start = document.getElementById('start');
         const video = document.getElementById('video');
         const note = document.getElementById('note');
 
+        // ページ読み込み時に動画を先読み
+        window.addEventListener('load', () => {
+            video.load();
+        });
+
         function showVideo() {
             start.style.display = 'none';
             video.style.display = 'block';
             note.style.display = 'block';
-            video.play();
-            // フルスクリーン試行
+            video.play();  // ユーザー操作後に再生される
             if (video.requestFullscreen) {
                 video.requestFullscreen();
             } else if (video.webkitRequestFullscreen) {
@@ -79,7 +91,7 @@
         start.addEventListener('click', showVideo);
         start.addEventListener('touchstart', showVideo);
 
-        // 無限ループ（安全策）
+        // 無限ループ（念のため）
         video.addEventListener('ended', () => {
             video.currentTime = 0;
             video.play();
